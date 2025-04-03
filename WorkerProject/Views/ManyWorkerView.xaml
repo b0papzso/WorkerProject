@@ -1,12 +1,43 @@
-﻿<UserControl x:Class="WorkerProject.Views.UserControl1"
+﻿<UserControl x:Class="WorkerProject.Views.ManyWorkerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WorkerProject.Views"
              mc:Ignorable="d" 
+             xmlns:viewmodel="clr-namespace:WorkerProject.ViewModels"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewmodel:ManyWorkerViewModel/>
+    </UserControl.DataContext>
     <Grid>
-            
+        
+        <StackPanel>
+            <TextBlock Text="Összes dolgozó száma:" />
+            <TextBlock Text="{Binding AllWorkerCount}" />
+
+            <TextBlock Text="Fizetett és nem fizetett dolgozók száma:" />
+            <TextBlock Text="{Binding PaidAndNonPaidWorker}" />
+
+            <TextBlock Text="Legtöbbet és legkevesebbet kereső dolgozók:" />
+            <TextBlock Text="{Binding HighestAndLowestPaidWorker}" />
+
+            <TextBlock Text="Átlagos fizetés:" />
+            <TextBlock Text="{Binding Average}" />
+
+            <TextBox x:Name="NewSalaryTextBox" Width="200" Margin="5" Text="{Binding newSalary}"/>
+            <Button Content="Fizetés hozzáadása" Command="{Binding GetPayByEmailCommand}" CommandParameter="{Binding SelectedWorker}" />
+            <TextBlock Text="{Binding PayByEmail}" />
+
+            <Button Content="Dolgozó törlése email alapján(ha nincs fizetése)" Command="{Binding DeleteWorkerByEmailAndNoPayCommand}" CommandParameter="{Binding SelectedWorker}"/>
+
+            <ListBox
+          Margin="10 2 10 10"
+          ItemsSource="{Binding AllWorker}"
+          SelectedItem="{Binding SelectedWorker}"
+          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                MaxHeight="400"
+        />
+        </StackPanel>
     </Grid>
 </UserControl>
